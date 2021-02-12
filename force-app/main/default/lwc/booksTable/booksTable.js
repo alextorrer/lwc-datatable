@@ -11,7 +11,7 @@ const columns = [
         label: 'Title', 
         fieldName: 'title', 
         wrapText: true,
-        initialWidth: 300
+        initialWidth: 200
     },
     { 
         label: 'Description', 
@@ -19,11 +19,18 @@ const columns = [
         wrapText: true,
     },
     { 
+        label: 'Authors', 
+        fieldName: 'authors',
+        initialWidth: 180,
+        wrapText: true
+    },
+    { 
         label: 'Published', 
         fieldName: 'publishedDate', 
         hideDefaultActions: true,
         fixedWidth: 150,
     },
+    
     {
         type: 'action',
         typeAttributes:{
@@ -44,7 +51,14 @@ export default class BooksTable extends LightningElement {
             try{
                 const response = await fetchBooksHelper(this.query);
                 const json = await response.json();
-                this.data = json.items.map(book => book.volumeInfo);
+                this.data = json.items.map(book => {
+                   return {
+                        title: book.volumeInfo.title,
+                        description: book.volumeInfo.description,
+                        pubishedDate: book.volumeInfo.publishedDate,
+                        authors: book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown'
+                   }
+                });
             }
             catch(err){
                 console.error(err);
