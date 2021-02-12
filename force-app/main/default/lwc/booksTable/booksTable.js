@@ -1,4 +1,5 @@
 import { LightningElement } from 'lwc';
+import fetchBooksHelper from './fetchBooksHelper.js';
 
 const columns = [
     { 
@@ -31,4 +32,9 @@ export default class BooksTable extends LightningElement {
     columns = columns;
     data = [];
     query = 'salesforce';
+
+    handleQueryChange(event){
+        this.query = event.target.value;
+        fetchBooksHelper(this.query);
+    }
 }
