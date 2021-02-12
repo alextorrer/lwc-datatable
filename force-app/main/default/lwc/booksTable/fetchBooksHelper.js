@@ -1,3 +1,5 @@
+const url = "https://www.googleapis.com/books/v1/volumes?langRestrict=en";
+
 export default function fetchBooksHelper(query){
-    console.log(query);
+    return fetch(`${url}&q=${query}`);
 }

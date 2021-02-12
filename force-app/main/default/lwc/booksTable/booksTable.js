@@ -5,36 +5,38 @@ const columns = [
     { 
         label: 'Title', 
         fieldName: 'title', 
-        hideDefaultActions: true, 
-        cellAttributes: {
-            alignment: 'center'
-        } 
-    },
-    { 
-        label: 'Year', 
-        fieldName: 'publishedDate', 
-        hideDefaultActions: true,
-        cellAttributes: {
-            alignment: 'center'
-        } 
+        wrapText: true,
+        initialWidth: 300
     },
     { 
         label: 'Description', 
         fieldName: 'description', 
+        wrapText: true,
+    },
+    { 
+        label: 'Published', 
+        fieldName: 'publishedDate', 
         hideDefaultActions: true,
-        cellAttributes: {
-            alignment: 'center'
-        }
+        fixedWidth: 150,
     },
 ];
 
 export default class BooksTable extends LightningElement {
     columns = columns;
     data = [];
-    query = 'salesforce';
+    query = '';
 
-    handleQueryChange(event){
+    async handleQueryChange(event){
         this.query = event.target.value;
-        fetchBooksHelper(this.query);
+        if(this.query){
+            try{
+                const response = await fetchBooksHelper(this.query);
+                const json = await response.json();
+                this.data = json.items.map(book => book.volumeInfo);
+            }
+            catch(err){
+                console.error(err);
+            }
+        }
     }
 }
