@@ -35,7 +35,7 @@ const columns = [
         type: 'action',
         typeAttributes:{
             rowActions: actions,
-            menuAlignment: 'left'
+            menuAlignment: 'auto'
         }
     }
 ];
@@ -53,15 +53,17 @@ export default class BooksTable extends LightningElement {
                 const json = await response.json();
                 this.data = json.items.map(book => {
                    return {
-                        title: book.volumeInfo.title,
-                        description: book.volumeInfo.description,
-                        pubishedDate: book.volumeInfo.publishedDate,
-                        authors: book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown'
+                        authors: book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown',
+                        ...book.volumeInfo
                    }
                 });
             }
             catch(err){
-                console.error(err);
+                this.showToast({
+                    title: 'Error',
+                    message: 'Ocurrió un error al cargar los libros',
+                    variant: 'error'
+                });
             }
         }
     }

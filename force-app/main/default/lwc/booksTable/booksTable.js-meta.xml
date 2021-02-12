@@ -4,6 +4,6 @@
     <isExposed>true</isExposed>
     <masterLabel>Books Table</masterLabel>
     <targets>
-        <target>lightningCommunity_Page</target>
+        <target>lightningCommunity__Page</target>
     </targets>
 </LightningComponentBundle>
