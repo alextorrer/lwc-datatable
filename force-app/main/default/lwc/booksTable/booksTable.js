@@ -52,13 +52,13 @@ export default class BooksTable extends LightningElement {
                 const response = await fetchBooksHelper(this.query);
                 this.data = response.items.map(book => {
                    return {
-                        authors: book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown',
-                        ...book.volumeInfo
+                        ...book.volumeInfo,
+                        authors: book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown'
                    }
                 });
             }
             catch(err){
-                showMessage({
+                showMessage(this, {
                     title: 'Error',
                     message: 'Ocurrió un error al cargar los libros',
                     variant: 'error'
@@ -72,7 +72,7 @@ export default class BooksTable extends LightningElement {
         const row = event.detail.row;
         switch(action.name){
             case 'preview':
-                row.previewLink ? window.open(row.previewLink, '_blank') : showMessage({
+                row.previewLink ? window.open(row.previewLink, '_blank') : showMessage(this, {
                     title: 'Preview unavailable',
                     message: 'This book does not have a preview link',
                     variant: 'warning'
