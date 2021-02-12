@@ -48,18 +48,16 @@ export default class BooksTable extends LightningElement {
 
     async handleQueryChange(event){
         this.query = event.target.value;
-        if(this.query){
-            try{
-                const response = await fetchBooks(this.query);
-                this.data = mapBooks(response.items);
-            }
-            catch(err){
-                showMessage(this, {
-                    title: 'Error',
-                    message: 'The books could not be loaded',
-                    variant: 'error'
-                });
-            }
+        try{
+            const response = await fetchBooks(this.query);
+            this.data = mapBooks(response.items);
+        }
+        catch(err){
+            showMessage(this, {
+                title: 'Error',
+                message: 'The books could not be loaded',
+                variant: 'error'
+            });
         }
     }
 

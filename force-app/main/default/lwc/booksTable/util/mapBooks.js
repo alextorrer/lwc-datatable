@@ -1,4 +1,4 @@
-export default function mapBooks(books){
+export default function mapBooks(books = []){
     return books.map(book => {
         return {
              ...book.volumeInfo,
