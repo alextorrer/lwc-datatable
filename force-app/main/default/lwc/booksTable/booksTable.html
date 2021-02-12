@@ -9,14 +9,15 @@
                 onchange={handleQueryChange}>
             </lightning-input>
         </div>
-        <div class="slds-m-top_large slds-m-horizontal_medium" style="max-height: 500px;">
+        <div class="slds-m-top_large slds-m-horizontal_large" style="max-height: 500px;">
             <lightning-datatable
                 key-field="id" 
                 data={data} 
                 columns={columns}
                 hide-checkbox-column
                 wrap-text-max-lines="6"
-                max-column-width="500">
+                max-column-width="500"
+                onrowaction={handleRowAction}>
             </lightning-datatable>
         </div>
     </lightning-card>

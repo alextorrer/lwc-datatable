@@ -1,5 +1,10 @@
 import { LightningElement } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import fetchBooksHelper from './fetchBooksHelper.js';
+
+const actions = [
+    { label: 'Preview book', name: 'preview'}
+]
 
 const columns = [
     { 
@@ -19,6 +24,13 @@ const columns = [
         hideDefaultActions: true,
         fixedWidth: 150,
     },
+    {
+        type: 'action',
+        typeAttributes:{
+            rowActions: actions,
+            menuAlignment: 'left'
+        }
+    }
 ];
 
 export default class BooksTable extends LightningElement {
@@ -39,4 +51,28 @@ export default class BooksTable extends LightningElement {
             }
         }
     }
+
+    handleRowAction(event){
+        const action = event.detail.action;
+        const row = event.detail.row;
+        switch(action.name){
+            case 'preview':
+                row.previewLink ? window.open(row.previewLink, '_blank') : this.showToast({
+                    title: 'Preview unavailable',
+                    message: 'This book does not have a preview link',
+                    variant: 'warning'
+                });
+            break;
+        }
+    }
+
+    showToast(options){
+        const event = new ShowToastEvent({
+            title: options.title,
+            message: options.message,
+            variant: options.variant || 'info'
+        });
+        this.dispatchEvent(event);
+    }
+
 }
