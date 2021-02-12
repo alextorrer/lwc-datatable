@@ -1,6 +1,6 @@
 import { LightningElement } from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import fetchBooksHelper from './fetchBooksHelper.js';
+import { showMessage } from 'c/showMessage';
 
 const actions = [
     { label: 'Preview book', name: 'preview'}
@@ -50,8 +50,7 @@ export default class BooksTable extends LightningElement {
         if(this.query){
             try{
                 const response = await fetchBooksHelper(this.query);
-                const json = await response.json();
-                this.data = json.items.map(book => {
+                this.data = response.items.map(book => {
                    return {
                         authors: book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown',
                         ...book.volumeInfo
@@ -59,7 +58,7 @@ export default class BooksTable extends LightningElement {
                 });
             }
             catch(err){
-                this.showToast({
+                showMessage({
                     title: 'Error',
                     message: 'Ocurrió un error al cargar los libros',
                     variant: 'error'
@@ -73,22 +72,13 @@ export default class BooksTable extends LightningElement {
         const row = event.detail.row;
         switch(action.name){
             case 'preview':
-                row.previewLink ? window.open(row.previewLink, '_blank') : this.showToast({
+                row.previewLink ? window.open(row.previewLink, '_blank') : showMessage({
                     title: 'Preview unavailable',
                     message: 'This book does not have a preview link',
                     variant: 'warning'
                 });
             break;
         }
-    }
-
-    showToast(options){
-        const event = new ShowToastEvent({
-            title: options.title,
-            message: options.message,
-            variant: options.variant || 'info'
-        });
-        this.dispatchEvent(event);
     }
 
 }
