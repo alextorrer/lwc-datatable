@@ -11,7 +11,7 @@ const columns = [
         label: 'Title', 
         fieldName: 'title', 
         wrapText: true,
-        initialWidth: 200
+        initialWidth: 300
     },
     { 
         label: 'Description', 
@@ -21,7 +21,7 @@ const columns = [
     { 
         label: 'Authors', 
         fieldName: 'authors',
-        initialWidth: 180,
+        initialWidth: 200,
         wrapText: true
     },
     { 
