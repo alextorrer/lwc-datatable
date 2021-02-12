@@ -1,6 +1,7 @@
 import { LightningElement } from 'lwc';
-import fetchBooksHelper from './fetchBooksHelper.js';
 import { showMessage } from 'c/showMessage';
+import fetchBooks from './util/fetchBooks';
+import mapBooks from './util/mapBooks';
 
 const actions = [
     { label: 'Preview book', name: 'preview'}
@@ -49,18 +50,13 @@ export default class BooksTable extends LightningElement {
         this.query = event.target.value;
         if(this.query){
             try{
-                const response = await fetchBooksHelper(this.query);
-                this.data = response.items.map(book => {
-                   return {
-                        ...book.volumeInfo,
-                        authors: book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown'
-                   }
-                });
+                const response = await fetchBooks(this.query);
+                this.data = mapBooks(response.items);
             }
             catch(err){
                 showMessage(this, {
                     title: 'Error',
-                    message: 'Ocurrió un error al cargar los libros',
+                    message: 'The books could not be loaded',
                     variant: 'error'
                 });
             }

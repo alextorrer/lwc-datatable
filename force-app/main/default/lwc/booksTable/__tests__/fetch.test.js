@@ -1,4 +1,4 @@
-import fetchBooks from '../fetchBooksHelper';
+import fetchBooks from '../util/fetchBooks';
 
 global.fetch = jest.fn(() => {
     return Promise.resolve({
